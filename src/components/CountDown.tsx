@@ -1,43 +1,23 @@
-import { useContext, useEffect, useState } from 'react';
-import { ChallengesContext } from '../contexts/ChallengesContext';
 import styles from '../styles/components/CountDown.module.css';
+import { CountDownContext } from '../contexts/CountDownContext';
 
-let countDownTimeout: NodeJS.Timeout;
+import { FaPlay } from 'react-icons/fa';
+import { ImCancelCircle } from 'react-icons/im';
+import { MdDoneAll } from 'react-icons/md';
+import { useContext } from 'react';
 
 export function CountDown() {
-    const { startNewChallenge } = useContext(ChallengesContext);
-
-    const [time, setTime] = useState(0.1 * 60);
-    const [isActive, setIsActive] = useState(false);
-    const [hasFinished, setHasFinished] = useState(false);
-
-    const minutes = Math.floor(time / 60);
-    const seconds = (time % 60);
+    const { 
+        minutes, 
+        seconds, 
+        hasFinished, 
+        isActive, 
+        startCountDown, 
+        resetCountDown 
+    } = useContext(CountDownContext);
 
     const [minuteLeft, minuteRigth] = String(minutes).padStart(2, '0').split('');
     const [secondLeft, secondRigth] = String(seconds).padStart(2, '0').split('');
-
-    function startCountDown() {
-        setIsActive(true);
-    }
-
-    function resetCountDown() {
-        clearTimeout(countDownTimeout);
-        setIsActive(false);
-        setTime(0.1 * 60);
-    }
-
-    useEffect(() => {
-        if (isActive && time > 0) {
-            countDownTimeout = setTimeout(() => {
-                setTime(time - 1);
-            }, 1000);
-        } else if (isActive && time === 0) {
-            setHasFinished(true);
-            setIsActive(false);
-            startNewChallenge();
-        }
-    }, [isActive, time]);
 
     return(
         <div>
@@ -58,7 +38,7 @@ export function CountDown() {
                     disabled
                     className={styles.countdownButton}
                 >
-                    Ciclo encerrado
+                    Ciclo encerrado <MdDoneAll className={styles.finishedCycle} />
                 </button>
             ) : (
                 <>
@@ -68,7 +48,7 @@ export function CountDown() {
                             className={`${styles.countdownButton} ${styles.countdownButtonActive}`} 
                             onClick={resetCountDown}
                         >
-                            Abandonar ciclo
+                            Abandonar ciclo <ImCancelCircle className={styles.cancelCycle} />
                         </button>
                     ) : (
                         <button 
@@ -76,7 +56,7 @@ export function CountDown() {
                             className={styles.countdownButton} 
                             onClick={startCountDown}
                         >
-                            Inciar um ciclo
+                            Inciar um ciclo <FaPlay className={styles.playCycle} />
                         </button>
                     ) }
                 </>

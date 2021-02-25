@@ -70,3 +70,15 @@
   color: var(--text);
   cursor: not-allowed;
 }
+
+.cancelCycle {
+  margin-left: 0.5rem;
+}
+
+.playCycle {
+  margin-left: 0.5rem;
+}
+
+.finishedCycle {
+  margin-left: 0.5rem;
+}
