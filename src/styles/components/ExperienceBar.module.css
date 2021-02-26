@@ -27,3 +27,11 @@ span.currentExperience {
     top: 12px;
     transform: translateX(-50%);
 }
+
+.starInitial {
+    padding-right: 0.1rem;
+}
+
+.starFinish {
+    padding-left: 0.1rem;
+}
